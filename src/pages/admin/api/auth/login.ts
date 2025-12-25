@@ -86,11 +86,12 @@ export const POST: APIRoute = async ({ request }) => {
                 },
             }
         );
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Login failed';
         return new Response(
             JSON.stringify({
                 success: false,
-                error: error?.message || 'Login failed',
+                error: errorMessage,
             }),
             {
                 status: 400,

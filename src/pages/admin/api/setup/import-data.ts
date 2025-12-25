@@ -138,11 +138,12 @@ export const POST: APIRoute = async ({ request }) => {
                 }
             );
         }
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to import sample data';
         return new Response(
             JSON.stringify({
                 success: false,
-                message: error?.message || 'Failed to import sample data',
+                message: errorMessage,
             }),
             {
                 status: 500,

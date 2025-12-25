@@ -18,10 +18,10 @@ function getSecretKey(): Uint8Array {
         }
         
         // Only log warning once in development
-        if (typeof globalThis !== 'undefined' && !(globalThis as any).__SESSION_SECRET_WARNING_SHOWN) {
+        if (typeof globalThis !== 'undefined' && !(globalThis as Record<string, unknown>).__SESSION_SECRET_WARNING_SHOWN) {
             console.warn('\n⚠️  WARNING: Using default SESSION_SECRET for development only!');
             console.warn('   Generate a secure secret for production with: openssl rand -base64 32\n');
-            (globalThis as any).__SESSION_SECRET_WARNING_SHOWN = true;
+            (globalThis as Record<string, unknown>).__SESSION_SECRET_WARNING_SHOWN = true;
         }
         
         return new TextEncoder().encode('default-dev-secret-change-in-production-min-32-chars');

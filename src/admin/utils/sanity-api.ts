@@ -18,13 +18,19 @@ export function createSanityClient(config: Partial<EnvConfig>): SanityClient {
     });
 }
 
+interface SanityProjectInfo {
+    projectId: string;
+    dataset: string;
+    projectName: string;
+}
+
 /**
  * Test Sanity connection with the given credentials
  */
 export async function testSanityConnection(config: Partial<EnvConfig>): Promise<{
     success: boolean;
     message: string;
-    details?: any;
+    details?: SanityProjectInfo | Record<string, unknown>;
 }> {
     try {
         if (!config.SANITY_PROJECT_ID) {
@@ -68,13 +74,19 @@ export async function testSanityConnection(config: Partial<EnvConfig>): Promise<
                 projectName: result.displayName,
             },
         };
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Connection failed';
         return {
             success: false,
-            message: error?.message || 'Connection failed',
-            details: error,
+            message: errorMessage,
+            details: error instanceof Error ? { error: error.message } : {},
         };
     }
+}
+
+interface CreateProjectBody {
+    displayName: string;
+    organizationId?: string;
 }
 
 /**
@@ -90,7 +102,7 @@ export async function createSanityProject(params: {
     projectId?: string;
     dataset?: string;
     message?: string;
-    error?: any;
+    error?: string;
 }> {
     const { token, projectName, dataset = 'production', organizationId } = params;
 
@@ -103,7 +115,7 @@ export async function createSanityProject(params: {
         });
 
         // Create project
-        const projectBody: any = {
+        const projectBody: CreateProjectBody = {
             displayName: projectName,
         };
 
@@ -132,11 +144,12 @@ export async function createSanityProject(params: {
             dataset: dataset,
             message: 'Project created successfully',
         };
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to create project';
         return {
             success: false,
-            message: error?.message || 'Failed to create project',
-            error,
+            message: errorMessage,
+            error: errorMessage,
         };
     }
 }
@@ -146,7 +159,7 @@ export async function createSanityProject(params: {
  */
 export async function getProjectInfo(config: Partial<EnvConfig>): Promise<{
     success: boolean;
-    data?: any;
+    data?: Record<string, unknown>;
     message?: string;
 }> {
     try {
@@ -160,10 +173,11 @@ export async function getProjectInfo(config: Partial<EnvConfig>): Promise<{
             success: true,
             data: projectInfo,
         };
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to fetch project info';
         return {
             success: false,
-            message: error?.message || 'Failed to fetch project info',
+            message: errorMessage,
         };
     }
 }
@@ -202,10 +216,18 @@ export async function getContentStats(config: Partial<EnvConfig>): Promise<{
     }
 }
 
+interface SanityPage {
+    _id: string;
+    title: string;
+    slug?: { current?: string };
+    _updatedAt: string;
+    _createdAt: string;
+}
+
 /**
  * Get recent pages
  */
-export async function getRecentPages(config: Partial<EnvConfig>, limit = 5): Promise<any[]> {
+export async function getRecentPages(config: Partial<EnvConfig>, limit = 5): Promise<SanityPage[]> {
     try {
         const client = createSanityClient(config);
         const pages = await client.fetch(

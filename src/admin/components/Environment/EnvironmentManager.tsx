@@ -106,7 +106,7 @@ export default function EnvironmentManager() {
                     text: data.error || 'Failed to save configuration',
                 });
             }
-        } catch (error: any) {
+        } catch (error) {
             setMessage({ type: 'error', text: 'Failed to save configuration' });
         } finally {
             setSaving(false);
@@ -146,7 +146,7 @@ export default function EnvironmentManager() {
                     text: data.message || 'Connection failed',
                 });
             }
-        } catch (error: any) {
+        } catch (error) {
             setMessage({ type: 'error', text: 'Failed to test connection' });
         } finally {
             setTesting(false);

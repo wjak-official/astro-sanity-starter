@@ -11,10 +11,11 @@ export const GET: APIRoute = async () => {
                 'Content-Type': 'application/json',
             },
         });
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to load configuration';
         return new Response(
             JSON.stringify({
-                error: error?.message || 'Failed to load configuration',
+                error: errorMessage,
             }),
             {
                 status: 500,

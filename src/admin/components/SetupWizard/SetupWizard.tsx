@@ -77,7 +77,7 @@ export default function SetupWizard() {
             } else {
                 setError(data.message || 'Failed to create project');
             }
-        } catch (err: any) {
+        } catch (err) {
             setError('Failed to create project');
         } finally {
             setLoading(false);
@@ -112,7 +112,7 @@ export default function SetupWizard() {
             } else {
                 setError(data.message || 'Failed to connect to project');
             }
-        } catch (err: any) {
+        } catch (err) {
             setError('Failed to save configuration');
         } finally {
             setLoading(false);
@@ -158,7 +158,7 @@ export default function SetupWizard() {
             } else {
                 setError(data.message || 'Failed to import data');
             }
-        } catch (err: any) {
+        } catch (err) {
             setError('Failed to import data');
         } finally {
             setLoading(false);

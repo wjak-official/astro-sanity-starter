@@ -54,11 +54,12 @@ export const POST: APIRoute = async ({ request }) => {
                 },
             }
         );
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to save configuration';
         return new Response(
             JSON.stringify({
                 success: false,
-                message: error?.message || 'Failed to save configuration',
+                message: errorMessage,
             }),
             {
                 status: 500,

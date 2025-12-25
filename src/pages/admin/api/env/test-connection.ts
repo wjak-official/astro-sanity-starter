@@ -12,11 +12,12 @@ export const POST: APIRoute = async ({ request }) => {
                 'Content-Type': 'application/json',
             },
         });
-    } catch (error: any) {
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to test connection';
         return new Response(
             JSON.stringify({
                 success: false,
-                message: error?.message || 'Failed to test connection',
+                message: errorMessage,
             }),
             {
                 status: 500,
