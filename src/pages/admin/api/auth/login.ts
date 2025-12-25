@@ -12,10 +12,40 @@ export const POST: APIRoute = async ({ request }) => {
 
         // For demo purposes, we'll use a simple credential check
         // In production, you should validate against a proper user database
-        const validUsername = process.env.ADMIN_USERNAME || 'admin';
-        const validPassword = process.env.ADMIN_PASSWORD || 'password123';
+        const validUsername = process.env.ADMIN_USERNAME;
+        const validPassword = process.env.ADMIN_PASSWORD;
 
-        if (username !== validUsername || password !== validPassword) {
+        if (!validUsername || !validPassword) {
+            if (process.env.NODE_ENV === 'production') {
+                return new Response(
+                    JSON.stringify({
+                        success: false,
+                        error: 'Admin credentials not configured',
+                    }),
+                    {
+                        status: 500,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+            }
+            // Development defaults
+            if (username !== 'admin' || password !== 'password123') {
+                return new Response(
+                    JSON.stringify({
+                        success: false,
+                        error: 'Invalid username or password',
+                    }),
+                    {
+                        status: 401,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+            }
+        } else if (username !== validUsername || password !== validPassword) {
             return new Response(
                 JSON.stringify({
                     success: false,

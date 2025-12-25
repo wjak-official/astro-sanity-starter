@@ -1,9 +1,17 @@
 import { SignJWT, jwtVerify } from 'jose';
 import type { SessionData } from './validation';
 
-const SECRET_KEY = new TextEncoder().encode(
-    process.env.SESSION_SECRET || 'change-this-secret-key-in-production'
-);
+const SECRET_KEY = (() => {
+    const secret = process.env.SESSION_SECRET;
+    if (!secret) {
+        // Only warn in development, use a default
+        if (process.env.NODE_ENV !== 'production') {
+            console.warn('WARNING: Using default SESSION_SECRET. Set SESSION_SECRET in production!');
+        }
+        return new TextEncoder().encode('default-dev-secret-change-in-production-min-32-chars');
+    }
+    return new TextEncoder().encode(secret);
+})();
 
 const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -66,8 +74,10 @@ export function getSessionFromRequest(request: Request): string | null {
     }
 
     const cookies = cookieHeader.split(';').reduce((acc, cookie) => {
-        const [key, value] = cookie.trim().split('=');
-        acc[key] = value;
+        const [key, ...valueParts] = cookie.trim().split('=');
+        if (key && valueParts.length > 0) {
+            acc[key] = valueParts.join('=');
+        }
         return acc;
     }, {} as Record<string, string>);
 

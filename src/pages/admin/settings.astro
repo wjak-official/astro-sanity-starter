@@ -16,19 +16,19 @@ import EnvironmentManager from '@admin/components/Environment/EnvironmentManager
 
         <EnvironmentManager client:load />
 
-        <div className="admin-card" style="margin-top: 1rem;">
-            <div className="admin-card-header">
-                <h3 className="admin-card-title">Quick Actions</h3>
+            <div class="admin-card" style="margin-top: 1rem;">
+                <div class="admin-card-header">
+                    <h3 class="admin-card-title">Quick Actions</h3>
+                </div>
+                <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <a href="/admin/setup-wizard" class="admin-button admin-button-primary">
+                        🧙 Run Setup Wizard
+                    </a>
+                    <a href="/admin/dashboard" class="admin-button admin-button-secondary">
+                        📊 Back to Dashboard
+                    </a>
+                </div>
             </div>
-            <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-                <a href="/admin/setup-wizard" className="admin-button admin-button-primary">
-                    🧙 Run Setup Wizard
-                </a>
-                <a href="/admin/dashboard" className="admin-button admin-button-secondary">
-                    📊 Back to Dashboard
-                </a>
-            </div>
-        </div>
     </div>
 </AdminLayout>
 

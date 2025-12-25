@@ -4,7 +4,22 @@
 
 [Live Demo](https://astro-sanity-starter-demo.netlify.app/)
 
-Netlify Astro and Sanity minimal starter with [visual editing](https://docs.netlify.com/visual-editor/overview/).
+Netlify Astro and Sanity minimal starter with [visual editing](https://docs.netlify.com/visual-editor/overview/) and a **production-ready admin dashboard**.
+
+## ✨ New: Admin Dashboard
+
+This starter now includes a full-featured admin dashboard with:
+
+- 🔐 **Authentication** - Secure login/logout with session management
+- 🧙 **Setup Wizard** - Interactive configuration for Sanity projects
+- ⚙️ **Environment Manager** - Visual editor for environment variables
+- 🎨 **Embedded Studio** - Access Sanity Studio directly in the dashboard
+- 📊 **Analytics Dashboard** - Quick overview of your content
+- 📝 **Activity Feed** - Track all admin actions
+
+**[Read the Admin Dashboard Guide →](./ADMIN_GUIDE.md)**
+
+Access the dashboard at `/admin` after starting your dev server.
 
 | Prerequisites                                                                |
 | :--------------------------------------------------------------------------- |
@@ -19,7 +34,26 @@ Create local project from this repo and run:
 npm install
 ```
 
-### Sign Into Sanity
+### Quick Setup (Recommended)
+
+Use the admin dashboard Setup Wizard for the easiest configuration:
+
+1. Start the development server:
+   ```txt
+   npm run dev
+   ```
+
+2. Navigate to `http://localhost:3000/admin`
+
+3. Log in with default credentials:
+   - Username: `admin`
+   - Password: `password123`
+
+4. Follow the Setup Wizard to configure your Sanity project
+
+### Manual Setup (Alternative)
+
+#### Sign Into Sanity
 
 If you are not already signed into Sanity via the CLI, install the CLI package and then run the login command.
 
@@ -30,7 +64,7 @@ sanity login
 
 This will open a browser and walk you through the authentication process.
 
-### Import Content
+#### Import Content
 
 Once authenticated, you'll be able to create a Sanity project and import content.
 
