@@ -25,7 +25,9 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         // Validate project ID format to prevent command injection
-        if (!/^[a-z0-9][-a-z0-9]*$/.test(projectId)) {
+        // Project ID must be lowercase alphanumeric, can contain hyphens
+        // but not at start/end, and single char IDs are allowed
+        if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/.test(projectId)) {
             return new Response(
                 JSON.stringify({
                     success: false,

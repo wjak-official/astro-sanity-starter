@@ -4,10 +4,15 @@ import type { SessionData } from './validation';
 const SECRET_KEY = (() => {
     const secret = process.env.SESSION_SECRET;
     if (!secret) {
-        // Only warn in development, use a default
-        if (process.env.NODE_ENV !== 'production') {
-            console.warn('WARNING: Using default SESSION_SECRET. Set SESSION_SECRET in production!');
+        const isDevelopment = process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
+        
+        if (!isDevelopment) {
+            // Fail fast in production/test environments
+            throw new Error('SECURITY ERROR: SESSION_SECRET environment variable is required in production. Generate a secure secret with: openssl rand -base64 32');
         }
+        
+        console.warn('\n⚠️  WARNING: Using default SESSION_SECRET for development only!');
+        console.warn('   Generate a secure secret for production with: openssl rand -base64 32\n');
         return new TextEncoder().encode('default-dev-secret-change-in-production-min-32-chars');
     }
     return new TextEncoder().encode(secret);

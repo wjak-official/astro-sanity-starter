@@ -83,7 +83,8 @@ Access the embedded Sanity Studio at `/admin/studio` to edit your content direct
 
 - **Real-time tracking** of admin actions
 - **Event logging**: Login, logout, configuration changes, content updates
-- **Persistent storage**: Activity history saved locally
+- **Persistent storage**: Activity history saved locally in `.admin-activity.json`
+- **Note**: Activity logs are stored in plain JSON format. For production systems with sensitive operations, consider implementing database-backed logging with proper access controls.
 
 ## Environment Variables
 
