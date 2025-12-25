@@ -132,17 +132,17 @@ SESSION_SECRET="your-secret-key"
 
 ## API Endpoints
 
-The admin dashboard includes several API endpoints:
+The admin dashboard includes several API endpoints. Authentication requirements are indicated for each endpoint:
 
-- `/admin/api/auth/login` - User authentication
-- `/admin/api/auth/logout` - End session
-- `/admin/api/auth/session` - Check session status
-- `/admin/api/env/load` - Load environment configuration
-- `/admin/api/env/save` - Save environment configuration
-- `/admin/api/env/test-connection` - Test Sanity connection
-- `/admin/api/setup/create-project` - Create new Sanity project
-- `/admin/api/setup/import-data` - Import sample data
-- `/admin/api/activity/feed` - Get activity logs
+- `/admin/api/auth/login` *(public)* – User authentication (creates a new session)
+- `/admin/api/auth/logout` *(authenticated)* – End session
+- `/admin/api/auth/session` *(authenticated)* – Check session status
+- `/admin/api/env/load` *(authenticated)* – Load environment configuration
+- `/admin/api/env/save` *(authenticated)* – Save environment configuration
+- `/admin/api/env/test-connection` *(authenticated)* – Test Sanity connection
+- `/admin/api/setup/create-project` *(authenticated)* – Create new Sanity project
+- `/admin/api/setup/import-data` *(authenticated)* – Import sample data
+- `/admin/api/activity/feed` *(authenticated)* – Get activity logs
 
 ## Troubleshooting
 
