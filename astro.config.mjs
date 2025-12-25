@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sanity from '@sanity/astro';
 import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
 import { sanityConfig } from './src/utils/sanity-client';
 
 // https://astro.build/config
@@ -10,6 +11,7 @@ export default defineConfig({
     },
     integrations: [
         sanity(sanityConfig),
+        react(),
         tailwind({
             applyBaseStyles: false
         })

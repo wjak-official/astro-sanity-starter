@@ -1,0 +1,53 @@
+---
+import '../../styles/globals.css';
+import '@admin/styles/setup-wizard.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Wizard - Astro Sanity Admin</title>
+</head>
+<body>
+    <div class="setup-wizard">
+        <div class="setup-wizard-container">
+            <div class="setup-wizard-header">
+                <h1 class="setup-wizard-title">Setup Wizard</h1>
+                <p class="setup-wizard-subtitle">Let's get your site configured</p>
+            </div>
+
+            <div class="setup-wizard-content">
+                <div class="setup-step-content">
+                    <h2 class="setup-step-title">Welcome to Setup</h2>
+                    <p class="setup-step-description">
+                        This wizard will help you configure your Astro Sanity site without using the command line.
+                    </p>
+
+                    <div class="setup-info-box">
+                        <p style="margin: 0; font-size: 0.875rem;">
+                            <strong>Setup Wizard is coming soon!</strong><br>
+                            For now, please use the environment settings or follow the README instructions.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">
+                            Quick Links:
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="/admin" class="setup-button setup-button-primary">
+                                Go to Dashboard
+                            </a>
+                            <a href="/admin/settings" class="setup-button setup-button-secondary">
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

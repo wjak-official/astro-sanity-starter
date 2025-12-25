@@ -1,0 +1,29 @@
+---
+import AdminLayout from '@admin/components/Layout/AdminLayout.astro';
+import QuickActions from '@admin/components/Dashboard/QuickActions';
+import RecentPages from '@admin/components/Dashboard/RecentPages';
+import Analytics from '@admin/components/Dashboard/Analytics';
+import ActivityFeed from '@admin/components/Dashboard/ActivityFeed';
+---
+
+<AdminLayout title="Dashboard">
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div>
+            <h1 style="font-size: 2rem; font-weight: 700; margin: 0 0 0.5rem 0;">
+                Welcome to Admin Dashboard
+            </h1>
+            <p style="color: #6b7280; margin: 0;">
+                Manage your content, pages, and settings all in one place.
+            </p>
+        </div>
+
+        <QuickActions client:load />
+
+        <div class="admin-grid admin-grid-2">
+            <Analytics client:load />
+            <ActivityFeed client:load />
+        </div>
+
+        <RecentPages client:load />
+    </div>
+</AdminLayout>

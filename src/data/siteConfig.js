@@ -15,5 +15,9 @@ const CONFIG_QUERY_OBJ = `{
 }`;
 
 export async function fetchData() {
+    if (!client) {
+        console.warn('Sanity client not initialized');
+        return null;
+    }
     return await client.fetch(`*[_type == "siteConfig"][0] ${CONFIG_QUERY_OBJ}`);
 }
