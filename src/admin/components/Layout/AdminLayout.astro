@@ -1,0 +1,36 @@
+---
+import Sidebar from './Sidebar';
+import TopBar from './TopBar';
+import '../../styles/admin.css';
+
+interface Props {
+    title?: string;
+    userName?: string;
+}
+
+const { title = 'Admin Dashboard', userName = 'Admin' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} - Astro Sanity Admin</title>
+    <link rel="stylesheet" href="/src/styles/globals.css">
+</head>
+<body>
+    <div class="admin-container">
+        <Sidebar client:load currentPath={currentPath} />
+        
+        <main class="admin-main">
+            <TopBar client:load title={title} userName={userName} />
+            
+            <div class="admin-content">
+                <slot />
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+---
+import AdminLayout from '../../admin/components/Layout/AdminLayout.astro';
+---
+
+<AdminLayout title="Content Studio">
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h1 class="admin-card-title">Sanity Content Studio</h1>
+        </div>
+        <div style="padding: 2rem; text-align: center;">
+            <p style="font-size: 3rem; margin-bottom: 1rem;">🎨</p>
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Content Studio</h2>
+            <p style="color: #6b7280; margin-bottom: 2rem;">
+                Embedded Sanity Studio integration is coming soon!
+            </p>
+            <div class="setup-info-box">
+                <p style="margin: 0; font-size: 0.875rem;">
+                    <strong>For now, you can access Sanity Studio separately:</strong><br>
+                    1. Navigate to the <code>studio</code> directory<br>
+                    2. Run <code>npm install</code><br>
+                    3. Run <code>sanity dev</code><br>
+                    4. Visit <a href="http://localhost:3333" target="_blank">http://localhost:3333</a>
+                </p>
+            </div>
+            <a href="/admin" class="admin-button admin-button-primary" style="margin-top: 2rem;">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</AdminLayout>

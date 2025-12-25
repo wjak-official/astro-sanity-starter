@@ -1,0 +1,24 @@
+---
+import AdminLayout from '../../admin/components/Layout/AdminLayout.astro';
+---
+
+<AdminLayout title="Settings">
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h1 class="admin-card-title">System Settings</h1>
+        </div>
+        <div style="padding: 2rem;">
+            <p style="color: #6b7280; margin-bottom: 2rem;">
+                Configure your site settings and preferences.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="/admin/setup-wizard" class="admin-button admin-button-primary">
+                    🧙 Setup Wizard
+                </a>
+                <a href="/admin" class="admin-button admin-button-secondary">
+                    📊 Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</AdminLayout>

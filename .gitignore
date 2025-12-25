@@ -22,4 +22,4 @@ pnpm-debug.log*
 
 # stackbit
 .cache
-.stackbit/cache
+.stackbit/cache.admin-config.json
