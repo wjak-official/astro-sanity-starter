@@ -58,7 +58,7 @@ export default function EnvironmentManager() {
         }
     };
 
-    const updateEnvVarsWithConfig = (config: any) => {
+    const updateEnvVarsWithConfig = (config: Record<string, string>) => {
         setEnvVars((prevVars) =>
             prevVars.map((envVar) => ({
                 ...envVar,

@@ -124,11 +124,12 @@ export const POST: APIRoute = async ({ request }) => {
                     }
                 );
             }
-        } catch (execError: any) {
+        } catch (execError) {
+            const errorMessage = execError instanceof Error ? execError.message : 'Import execution failed';
             return new Response(
                 JSON.stringify({
                     success: false,
-                    message: `Import failed: ${execError.message}`,
+                    message: `Import failed: ${errorMessage}`,
                 }),
                 {
                     status: 500,
