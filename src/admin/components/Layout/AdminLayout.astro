@@ -8,7 +8,36 @@ interface Props {
     userName?: string;
 }
 
-const { title = 'Admin Dashboard', userName = 'Admin' } = Astro.props;
+// Check authentication
+const sessionCookie = Astro.cookies.get('session');
+let authenticatedUser = 'Admin';
+
+if (!sessionCookie?.value) {
+    return Astro.redirect('/admin/login?error=unauthorized');
+}
+
+// Validate session
+try {
+    const response = await fetch(new URL('/admin/api/auth/session', Astro.url), {
+        headers: {
+            'Cookie': `session=${sessionCookie.value}`,
+        },
+    });
+    
+    if (response.ok) {
+        const data = await response.json();
+        if (!data.authenticated) {
+            return Astro.redirect('/admin/login?error=unauthorized');
+        }
+        authenticatedUser = data.user?.username || 'Admin';
+    } else {
+        return Astro.redirect('/admin/login?error=unauthorized');
+    }
+} catch (error) {
+    return Astro.redirect('/admin/login?error=unauthorized');
+}
+
+const { title = 'Admin Dashboard', userName = authenticatedUser } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 

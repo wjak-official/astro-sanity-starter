@@ -21,7 +21,6 @@ export default function TopBar({ title = 'Admin Dashboard', userName = 'Admin' }
                     </span>
                     <button
                         onClick={() => {
-                            // TODO: Implement logout
                             window.location.href = '/admin/logout';
                         }}
                         className="admin-button admin-button-secondary"

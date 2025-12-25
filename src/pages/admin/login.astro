@@ -1,0 +1,250 @@
+---
+import '../../styles/globals.css';
+import '@admin/styles/admin.css';
+
+// Check if already logged in
+const sessionCookie = Astro.cookies.get('session');
+if (sessionCookie?.value) {
+    // Validate session
+    const response = await fetch(new URL('/admin/api/auth/session', Astro.url), {
+        headers: {
+            'Cookie': `session=${sessionCookie.value}`,
+        },
+    });
+    
+    if (response.ok) {
+        const data = await response.json();
+        if (data.authenticated) {
+            return Astro.redirect('/admin/dashboard');
+        }
+    }
+}
+
+const error = Astro.url.searchParams.get('error');
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Astro Sanity Admin</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: #1f2937;
+        }
+
+        .login-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .login-button {
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            padding: 0.75rem;
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            border-radius: 0.5rem;
+            color: #991b1b;
+            font-size: 0.875rem;
+        }
+
+        .info-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            color: #1e40af;
+        }
+
+        .spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🎨 Admin Login</h1>
+            <p>Sign in to manage your content</p>
+        </div>
+
+        {error && (
+            <div class="error-message">
+                {error === 'unauthorized' ? 'You must be logged in to access this page' : 'Login failed. Please try again.'}
+            </div>
+        )}
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                    autocomplete="username"
+                    placeholder="Enter your username"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                    placeholder="Enter your password"
+                />
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">
+                Sign In
+            </button>
+        </form>
+
+        <div class="info-box">
+            <strong>Default credentials:</strong><br>
+            Username: admin<br>
+            Password: password123
+            <br><br>
+            <small>Configure via ADMIN_USERNAME and ADMIN_PASSWORD environment variables</small>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm') as HTMLFormElement;
+        const button = document.getElementById('loginButton') as HTMLButtonElement;
+        const usernameInput = document.getElementById('username') as HTMLInputElement;
+        const passwordInput = document.getElementById('password') as HTMLInputElement;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>Signing in...';
+
+            try {
+                const response = await fetch('/admin/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    alert(data.error || 'Login failed');
+                    button.disabled = false;
+                    button.textContent = 'Sign In';
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+                button.disabled = false;
+                button.textContent = 'Sign In';
+            }
+        });
+    </script>
+</body>
+</html>

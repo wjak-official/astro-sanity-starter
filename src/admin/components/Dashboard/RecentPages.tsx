@@ -9,7 +9,6 @@ interface Page {
 }
 
 const getStudioEditUrl = (pageId: string): string => {
-    // TODO: Make this configurable when Studio is embedded
     const cleanId = pageId.replace('drafts.', '');
     return `/admin/studio/desk/page;${cleanId}`;
 };

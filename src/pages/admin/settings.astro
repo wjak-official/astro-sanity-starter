@@ -1,24 +1,138 @@
 ---
 import AdminLayout from '@admin/components/Layout/AdminLayout.astro';
+import EnvironmentManager from '@admin/components/Environment/EnvironmentManager';
 ---
 
 <AdminLayout title="Settings">
-    <div class="admin-card">
-        <div class="admin-card-header">
-            <h1 class="admin-card-title">System Settings</h1>
-        </div>
-        <div style="padding: 2rem;">
-            <p style="color: #6b7280; margin-bottom: 2rem;">
-                Configure your site settings and preferences.
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div>
+            <h1 style="font-size: 2rem; font-weight: 700; margin: 0 0 0.5rem 0;">
+                System Settings
+            </h1>
+            <p style="color: #6b7280; margin: 0;">
+                Configure your site settings and environment variables.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <a href="/admin/setup-wizard" class="admin-button admin-button-primary">
-                    🧙 Setup Wizard
+        </div>
+
+        <EnvironmentManager client:load />
+
+        <div className="admin-card" style="margin-top: 1rem;">
+            <div className="admin-card-header">
+                <h3 className="admin-card-title">Quick Actions</h3>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <a href="/admin/setup-wizard" className="admin-button admin-button-primary">
+                    🧙 Run Setup Wizard
                 </a>
-                <a href="/admin" class="admin-button admin-button-secondary">
+                <a href="/admin/dashboard" className="admin-button admin-button-secondary">
                     📊 Back to Dashboard
                 </a>
             </div>
         </div>
     </div>
 </AdminLayout>
+
+<style>
+    .env-manager {
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .env-manager-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .env-manager-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        color: #111827;
+    }
+
+    .env-manager-subtitle {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0.25rem 0 0 0;
+    }
+
+    .env-manager-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .env-var-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .env-var-label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #374151;
+        display: flex;
+        align-items: center;
+    }
+
+    .env-var-description {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .env-var-input {
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+    .env-var-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .env-manager-message {
+        margin: 0 1.5rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .env-manager-message.success {
+        background: #d1fae5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+    }
+
+    .env-manager-message.error {
+        background: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+    }
+
+    .env-manager-info {
+        padding: 0 1.5rem 1.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .env-manager-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>

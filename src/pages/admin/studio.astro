@@ -1,30 +1,125 @@
 ---
 import AdminLayout from '@admin/components/Layout/AdminLayout.astro';
+import { configManager } from '@admin/utils/config-manager';
+
+// Load configuration to check if Sanity is configured
+const config = await configManager.load();
+const isConfigured = config.SANITY_PROJECT_ID && config.SANITY_DATASET;
 ---
 
 <AdminLayout title="Content Studio">
-    <div class="admin-card">
-        <div class="admin-card-header">
-            <h1 class="admin-card-title">Sanity Content Studio</h1>
-        </div>
-        <div style="padding: 2rem; text-align: center;">
-            <p style="font-size: 3rem; margin-bottom: 1rem;">🎨</p>
-            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Content Studio</h2>
-            <p style="color: #6b7280; margin-bottom: 2rem;">
-                Embedded Sanity Studio integration is coming soon!
-            </p>
-            <div class="setup-info-box">
-                <p style="margin: 0; font-size: 0.875rem;">
-                    <strong>For now, you can access Sanity Studio separately:</strong><br>
-                    1. Navigate to the <code>studio</code> directory<br>
-                    2. Run <code>npm install</code><br>
-                    3. Run <code>sanity dev</code><br>
-                    4. Visit <a href="http://localhost:3333" target="_blank">http://localhost:3333</a>
+    {isConfigured ? (
+        <div class="studio-container">
+            <div class="studio-header">
+                <h1 class="studio-title">🎨 Sanity Content Studio</h1>
+                <p class="studio-subtitle">
+                    Edit your content directly in the dashboard
                 </p>
             </div>
-            <a href="/admin" class="admin-button admin-button-primary" style="margin-top: 2rem;">
-                Back to Dashboard
-            </a>
+            
+            <div class="studio-frame-wrapper">
+                <iframe
+                    id="sanityStudio"
+                    src={`https://${config.SANITY_PROJECT_ID}.api.sanity.io/desk`}
+                    class="studio-frame"
+                    title="Sanity Studio"
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+                ></iframe>
+            </div>
+
+            <div class="studio-info">
+                <div class="info-box">
+                    <p style="margin: 0; font-size: 0.875rem;">
+                        <strong>💡 Tip:</strong> You can also run Studio locally with <code>cd studio && sanity dev</code> for better performance.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    ) : (
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h1 class="admin-card-title">Sanity Content Studio</h1>
+            </div>
+            <div style="padding: 2rem; text-align: center;">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">🎨</p>
+                <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Studio Not Configured</h2>
+                <p style="color: #6b7280; margin-bottom: 2rem;">
+                    Please configure your Sanity project settings first.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/admin/setup-wizard" class="admin-button admin-button-primary">
+                        Run Setup Wizard
+                    </a>
+                    <a href="/admin/settings" class="admin-button admin-button-secondary">
+                        Configure Settings
+                    </a>
+                </div>
+            </div>
+        </div>
+    )}
 </AdminLayout>
+
+<style>
+    .studio-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: calc(100vh - 8rem);
+    }
+
+    .studio-header {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .studio-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        color: #111827;
+    }
+
+    .studio-subtitle {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .studio-frame-wrapper {
+        flex: 1;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .studio-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .studio-info {
+        background: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .studio-container {
+            height: calc(100vh - 6rem);
+        }
+
+        .studio-header {
+            padding: 1rem;
+        }
+
+        .studio-title {
+            font-size: 1.25rem;
+        }
+    }
+</style>
