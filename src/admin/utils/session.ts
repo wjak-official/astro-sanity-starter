@@ -1,7 +1,13 @@
 import { SignJWT, jwtVerify } from 'jose';
 import type { SessionData } from './validation';
 
-const SECRET_KEY = (() => {
+const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+/**
+ * Get the secret key for session signing
+ * Lazy-loaded to avoid issues during static build
+ */
+function getSecretKey(): Uint8Array {
     const secret = process.env.SESSION_SECRET;
     if (!secret) {
         const isDevelopment = process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
@@ -11,14 +17,17 @@ const SECRET_KEY = (() => {
             throw new Error('SECURITY ERROR: SESSION_SECRET environment variable is required in production. Generate a secure secret with: openssl rand -base64 32');
         }
         
-        console.warn('\n⚠️  WARNING: Using default SESSION_SECRET for development only!');
-        console.warn('   Generate a secure secret for production with: openssl rand -base64 32\n');
+        // Only log warning once in development
+        if (typeof globalThis !== 'undefined' && !(globalThis as any).__SESSION_SECRET_WARNING_SHOWN) {
+            console.warn('\n⚠️  WARNING: Using default SESSION_SECRET for development only!');
+            console.warn('   Generate a secure secret for production with: openssl rand -base64 32\n');
+            (globalThis as any).__SESSION_SECRET_WARNING_SHOWN = true;
+        }
+        
         return new TextEncoder().encode('default-dev-secret-change-in-production-min-32-chars');
     }
     return new TextEncoder().encode(secret);
-})();
-
-const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+}
 
 /**
  * Session management utilities
@@ -38,7 +47,7 @@ export async function createSession(userId: string, username: string): Promise<s
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
         .setExpirationTime(Math.floor(expiresAt / 1000))
-        .sign(SECRET_KEY);
+        .sign(getSecretKey());
 
     return token;
 }
@@ -48,7 +57,7 @@ export async function createSession(userId: string, username: string): Promise<s
  */
 export async function verifySession(token: string): Promise<SessionData | null> {
     try {
-        const { payload } = await jwtVerify(token, SECRET_KEY);
+        const { payload } = await jwtVerify(token, getSecretKey());
 
         if (!payload.userId || !payload.username || !payload.expiresAt) {
             return null;
