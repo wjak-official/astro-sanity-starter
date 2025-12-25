@@ -12,6 +12,8 @@
         "export": "node ./sanity-export/export.js"
     },
     "dependencies": {
+        "@arcjet/astro": "^1.0.0-beta.15",
+        "@astrojs/node": "^9.5.1",
         "@astrojs/react": "^3.6.2",
         "@astrojs/tailwind": "^5.1.4",
         "@dnd-kit/core": "^6.1.0",
