@@ -63,12 +63,12 @@ export function validateProjectInput(input: unknown): CreateProjectInput {
  * Sanity project ID validation
  */
 export function isValidProjectId(projectId: string): boolean {
-    return /^[a-z0-9][-a-z0-9]*$/i.test(projectId);
+    return /^[a-z0-9][-a-z0-9]*$/.test(projectId);
 }
 
 /**
  * Sanity dataset validation
  */
 export function isValidDataset(dataset: string): boolean {
-    return /^[a-z0-9_][-a-z0-9_]*$/i.test(dataset);
+    return /^[a-z0-9_][-a-z0-9_]*$/.test(dataset);
 }

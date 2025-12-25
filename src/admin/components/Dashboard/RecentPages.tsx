@@ -8,6 +8,12 @@ interface Page {
     _createdAt: string;
 }
 
+const getStudioEditUrl = (pageId: string): string => {
+    // TODO: Make this configurable when Studio is embedded
+    const cleanId = pageId.replace('drafts.', '');
+    return `/admin/studio/desk/page;${cleanId}`;
+};
+
 export default function RecentPages() {
     const [pages, setPages] = useState<Page[]>([]);
     const [loading, setLoading] = useState(true);
@@ -119,7 +125,7 @@ export default function RecentPages() {
                                     {isDraft(page._id) ? 'Draft' : 'Published'}
                                 </span>
                                 <a
-                                    href={`/admin/studio/desk/page;${page._id.replace('drafts.', '')}`}
+                                    href={getStudioEditUrl(page._id)}
                                     className="admin-button admin-button-primary"
                                     style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                                 >

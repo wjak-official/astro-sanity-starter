@@ -84,11 +84,14 @@ export class ConfigManager {
             const content = await fs.readFile(targetPath, 'utf-8');
             const config: Partial<EnvConfig> = {};
             
+            // Expected environment variable keys
+            const validKeys = ['SANITY_PROJECT_ID', 'SANITY_DATASET', 'SANITY_TOKEN', 'SANITY_STUDIO_PROJECT_ID', 'SANITY_STUDIO_DATASET'];
+            
             content.split('\n').forEach(line => {
                 const match = line.match(/^([A-Z_]+)=["']?(.+?)["']?$/);
                 if (match) {
                     const [, key, value] = match;
-                    if (key in config) {
+                    if (validKeys.includes(key)) {
                         config[key as keyof EnvConfig] = value;
                     }
                 }
