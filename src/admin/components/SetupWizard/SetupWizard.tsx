@@ -353,7 +353,7 @@ export default function SetupWizard() {
                             </p>
                             <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                 <a
-                                    href="/admin/dashboard"
+                                    href="/admin"
                                     className="wizard-button wizard-button-primary"
                                 >
                                     Go to Dashboard
