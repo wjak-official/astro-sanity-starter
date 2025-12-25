@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { configManager } from '../../../admin/utils/config-manager';
-import { getContentStats } from '../../../admin/utils/sanity-api';
+import { configManager } from '@admin/utils/config-manager';
+import { getContentStats } from '@admin/utils/sanity-api';
 
 export const GET: APIRoute = async () => {
     try {

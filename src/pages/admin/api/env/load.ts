@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { configManager } from '../../../admin/utils/config-manager';
+import { configManager } from '@admin/utils/config-manager';
 
 export const GET: APIRoute = async () => {
     try {

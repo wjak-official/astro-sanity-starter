@@ -11,6 +11,7 @@
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@data/*": ["src/data/*"],
+      "@admin/*": ["src/admin/*"]
     },
     "jsx": "react"
   }

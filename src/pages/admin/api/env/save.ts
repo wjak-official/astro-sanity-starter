@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { configManager } from '../../../admin/utils/config-manager';
-import { validateEnvConfig } from '../../../admin/utils/validation';
+import { configManager } from '@admin/utils/config-manager';
+import { validateEnvConfig } from '@admin/utils/validation';
 
 export const POST: APIRoute = async ({ request }) => {
     try {

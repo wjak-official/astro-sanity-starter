@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { testSanityConnection } from '../../../admin/utils/sanity-api';
+import { testSanityConnection } from '@admin/utils/sanity-api';
 
 export const POST: APIRoute = async ({ request }) => {
     try {
