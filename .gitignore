@@ -25,3 +25,6 @@ pnpm-debug.log*
 .stackbit/cache
 .admin-config.json
 .admin-activity.json
+
+# MCP servers (Docker containers with dependencies)
+mcp-servers/
