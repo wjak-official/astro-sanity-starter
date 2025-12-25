@@ -3,6 +3,10 @@ import sanity from '@sanity/astro';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import { sanityConfig } from './src/utils/sanity-client';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +21,11 @@ export default defineConfig({
         })
     ],
     vite: {
+        resolve: {
+            alias: {
+                '@admin': path.resolve(__dirname, 'src/admin')
+            }
+        },
         server: {
             hmr: { path: '/vite-hmr/' }
         }
